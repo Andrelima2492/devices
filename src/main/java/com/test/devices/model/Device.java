@@ -7,15 +7,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import jakarta.validation.constraints.NotNull;
 
-@Entity
+
 @Data
 @NoArgsConstructor
+@Entity
 public class Device {
-    @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Integer id;
     @NotNull
     @NotBlank
