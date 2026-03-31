@@ -3,6 +3,7 @@ package com.test.devices.controller;
 import com.test.devices.dto.DeviceDTO;
 import com.test.devices.service.DeviceService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +15,8 @@ public class DeviceController {
     private DeviceService deviceService;
 
     @PostMapping("/device")
-    public void createDevice(@RequestBody DeviceDTO deviceDTO){
-        deviceService.createDevice(deviceDTO);
+    public ResponseEntity<DeviceDTO> createDevice(@RequestBody DeviceDTO deviceDTO){
+       return deviceService.createDevice(deviceDTO);
     }
 
     @GetMapping("/device/id/{id}")
@@ -39,13 +40,14 @@ public class DeviceController {
     }
 
     @PutMapping("/device/{id}")
-    public void updateDevice(@RequestBody DeviceDTO deviceDTO, @PathVariable Integer id){
-        deviceService.updateDevice(deviceDTO, id);
+    public ResponseEntity<DeviceDTO> updateDevice(@RequestBody DeviceDTO deviceDTO, @PathVariable Integer id){
+       return deviceService.updateDevice(deviceDTO, id);
     }
 
     @DeleteMapping("/device/{id}")
-    public void deleteDevice(@PathVariable Integer id){
+    public ResponseEntity<Void> deleteDevice(@PathVariable Integer id){
         deviceService.deleteDevice(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

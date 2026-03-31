@@ -8,7 +8,10 @@ import com.test.devices.repository.DeviceRepository;
 import com.test.devices.util.State;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -26,8 +29,9 @@ public class DeviceService {
       return new Device(deviceDTO.getName(), deviceDTO.getBrand(),
                 deviceDTO.getState(),deviceDTO.getCreationTime());
     }
-    public void createDevice(DeviceDTO deviceDTO) {
+    public ResponseEntity<DeviceDTO> createDevice(DeviceDTO deviceDTO) {
         deviceRepository.save(mapFromDTO(deviceDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(deviceDTO);
     }
 
     public DeviceDTO getDeviceById(Integer id) {
@@ -49,14 +53,17 @@ public class DeviceService {
     }
 
     @Transactional
-    public void updateDevice(DeviceDTO deviceDTO, Integer id) {
+    public ResponseEntity<DeviceDTO> updateDevice(DeviceDTO deviceDTO, Integer id) {
         Device device = deviceRepository.findById(id).orElseThrow(()->
                 new DeviceNotFoundException("No device found with id "+ id));
         device.setState(deviceDTO.getState());
         if(!State.IN_USE.equals(device.getState())){
             device.setName(deviceDTO.getName());
-            device.setBrand(device.getBrand());
+            device.setBrand(deviceDTO.getBrand());
         }
+        DeviceDTO response = mapToDTO(device);
+        deviceDTO.setId(device.getId());
+        return ResponseEntity.ok(response);
     }
 
     public void deleteDevice(Integer id) {
