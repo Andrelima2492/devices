@@ -76,3 +76,13 @@ docker-compose down
 
 ### Remove Volumes( reset database)
 docker-compose down -v
+
+---
+## Future Improvements
+- **Pagination & Filtering:** Add pagination and sorting for large datasets (e.g., GET `/devices`)
+- **Authentication & Authorization:** Secure the API endpoints with JWT or OAuth2
+- **DTO Validation Enhancements:** Add more granular input validation and custom error messages
+- **Integration Tests:** Add full integration tests with an in-memory or test PostgreSQL database
+- **API Documentation:** Integrate Swagger/OpenAPI for automatic API docs
+- **CI/CD Pipeline:** Automate build, test, and Docker deployment using GitHub Actions or Jenkins
+- **Error Logging & Monitoring:** Implement centralized logging and monitoring (e.g., ELK stack, Prometheus, Grafana)
