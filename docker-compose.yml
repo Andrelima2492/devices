@@ -14,6 +14,21 @@ services:
       - db
     restart: unless-stopped
 
+  app:
+      build: .
+      container_name: devices-springboot-app
+      ports:
+        - "8080:8080"
+      depends_on:
+        - db
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+        SPRING_DATASOURCE_USERNAME: nulhart
+        SPRING_DATASOURCE_PASSWORD: password
+      networks:
+        - db
+      restart: unless-stopped
+
 networks:
    db:
      driver: bridge

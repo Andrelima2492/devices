@@ -31,7 +31,16 @@ public class DeviceServiceTests {
     @Test
     void shouldCreate(){
         DeviceDTO deviceDTO = new DeviceDTO(null, "PS5", "Sony", State.AVAILABLE, 2020);
-        deviceService.createDevice(deviceDTO);
+        Device saved = new Device("PS5", "Sony", State.AVAILABLE, 2020);
+       saved.setId(1);
+        Mockito.when(deviceRepository.save(Mockito.any(Device.class))).thenReturn(saved);
+
+        DeviceDTO result = deviceService.createDevice(deviceDTO);
+        Assertions.assertEquals(1,result.getId());
+        Assertions.assertEquals("PS5",result.getName());
+        Assertions.assertEquals("Sony", result.getBrand());
+        Assertions.assertEquals(State.AVAILABLE, result.getState());
+        Assertions.assertEquals(2020,result.getCreationTime());
         Mockito.verify(deviceRepository).save(Mockito.any(Device.class));
     }
 
